@@ -1,0 +1,17 @@
+==================================================
+          OTONOM UÇUŞ ANALİZ RAPORU               
+==================================================
+
+1. Toplam Uçuş Süresi      : 62.51 saniye
+2. Maksimum İrtifa         : 0.00 metre
+3. Ortalama İrtifa         : 0.00 metre
+4. Kat Edilen Toplam Mesafe: 0.00 metre
+
+--- HEDEFLERE EN YAKINLAŞILAN MESAFELER ---
+ - Hedef 1 (X:20.0, Y:0.0) -> En Yakın Mesafe: 19.98m
+ - Hedef 2 (X:20.0, Y:20.0) -> En Yakın Mesafe: 28.28m
+ - Hedef 3 (X:-0.0, Y:20.0) -> En Yakın Mesafe: 20.01m
+ - Hedef 4 (X:-0.0, Y:0.0) -> En Yakın Mesafe: 0.02m
+
+5. Başarılı Hedef Oranı (<=2m): 1/4
+==================================================
