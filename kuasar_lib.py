@@ -355,3 +355,46 @@ def rtl_and_land(master, timeout=60):
                 
     print("-> HATA: Zaman aşımı! Drone belirlenen sürede inip motorları kapatamadı.")
     return False
+
+
+def daire_ciz(master, yaricap=10, nokta_sayisi=36, tur_suresi=20):
+    """Drone o anki konumunu merkez alarak dairesel yörünge çizer."""
+    print(f"\n--- GÖREV 2: DAİRE ROTA BAŞLATILIYOR (Yarıçap: {yaricap}m) ---")
+    adim_suresi = tur_suresi / nokta_sayisi
+
+    pos_msg = master.recv_match(type='LOCAL_POSITION_NED', blocking=True, timeout=2)
+    merkez_x = pos_msg.x if pos_msg else 0.0
+    merkez_y = pos_msg.y if pos_msg else 0.0
+
+    adim_suresi = tur_suresi / nokta_sayisi
+
+    # 2. Önce dairenin başlangıç noktasına (çember çizgisine) yumuşak geçiş yapıyoruz
+    baslangic_x = merkez_x + yaricap
+    baslangic_y = merkez_y
+    master.mav.set_position_target_local_ned_send(
+        0, master.target_system, master.target_component,
+        mavutil.mavlink.MAV_FRAME_LOCAL_NED,
+        0b0000111111111000,
+        baslangic_x, baslangic_y, -5.0,
+        0, 0, 0, 0, 0, 0, 0, 0
+    )
+    time.sleep(3) # Başlangıç çizgisine ulaşması için zam
+
+    for i in range(nokta_sayisi + 1):
+        aci = (2 * math.pi / nokta_sayisi) * i
+        kuzey = merkez_x + (yaricap * math.cos(aci))
+        dogu = merkez_y + (yaricap * math.sin(aci))
+
+        
+        # PyMAVLink ile hedef koordinat offsetini gönderiyoruz
+        master.mav.set_position_target_local_ned_send(
+            0, master.target_system, master.target_component,
+            mavutil.mavlink.MAV_FRAME_LOCAL_NED,
+            0b0000111111111000,
+            kuzey, dogu, -5.0,  # Kuzey (m), Doğu (m), İrtifa (-5m)
+            0, 0, 0, 0, 0, 0, 0, 0
+        )
+        print(f"  [Daire Açı: {math.degrees(aci):.0f}°] N: {kuzey:.2f}m, E: {dogu:.2f}m")
+        time.sleep(adim_suresi)
+
+    print("[BAŞARILI] Daire rota görevi tamamlandı.\n")

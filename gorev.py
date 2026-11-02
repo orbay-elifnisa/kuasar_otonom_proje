@@ -101,6 +101,9 @@ if __name__ == "__main__":
                     # 7. ROTAYI UÇMA
                     rota_ucur(master, rotadaki_noktalar, hedef_z=-HEDEF_IRTIFA, tolerans=TOLERANS, timeout_nokta=40)
 
+                    # BONUS GÖREV: DAİRE ÇİZİMİ
+                    daire_ciz(master, yaricap=KENAR_UZUNLUGU / 2, nokta_sayisi=36, tur_suresi=20)
+
     except Exception as e:
         print(f"\n[HATA] Uçuş sırasında beklenmeyen bir hata oluştu: {e}")
 
